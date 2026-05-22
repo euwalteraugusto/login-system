@@ -72,14 +72,19 @@ public class LoginScreen extends JFrame {
 
             case "LOGIN_SUCCESS":
 
-                JOptionPane.showMessageDialog(this,
-                        "Login realizado com sucesso!");
+                JOptionPane.showMessageDialog(
+                        this,
+                        "Login realizado com sucesso!",
+                        "Sucesso",
+                        JOptionPane.PLAIN_MESSAGE
+                );
 
                 break;
 
             default:
 
-                JOptionPane.showMessageDialog(this,
+                JOptionPane.showMessageDialog(
+                        this,
                         result,
                         "Erro",
                         JOptionPane.ERROR_MESSAGE);

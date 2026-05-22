@@ -14,10 +14,23 @@ public class UserDAO {
 
         String sql = "SELECT * FROM users WHERE username = ?";
 
-        try (
-                Connection connection = ConnectionFactory.getConnection();
-                PreparedStatement statement = connection.prepareStatement(sql)
-        ) {
+        Connection connection = null;
+
+        try {
+
+            connection = ConnectionFactory.getConnection();
+
+            /*
+             * Verifica se a conexão falhou
+             */
+            if (connection == null) {
+
+                System.out.println("Falha ao conectar com banco.");
+
+                return null;
+            }
+
+            PreparedStatement statement = connection.prepareStatement(sql);
 
             statement.setString(1, username);
 
@@ -39,6 +52,20 @@ public class UserDAO {
             System.out.println("Erro ao buscar usuário.");
 
             e.printStackTrace();
+
+        } finally {
+
+            try {
+
+                if (connection != null) {
+
+                    connection.close();
+                }
+
+            } catch (SQLException e) {
+
+                e.printStackTrace();
+            }
         }
 
         return null;
