@@ -1,19 +1,26 @@
-````markdown
 # Sistema de Login em Java
 
-Projeto acadêmico desenvolvido para a disciplina de Linguagem de Programação II, com o objetivo de demonstrar autenticação de usuários utilizando Java integrado ao banco de dados SQLite.
+Projeto acadêmico desenvolvido para a disciplina de Linguagem de Programação II.
+
+O sistema realiza autenticação de usuários utilizando Java integrado ao banco de dados SQLite, com interface gráfica desenvolvida em Swing.
 
 ---
 
-## Descrição
+# Objetivo do Projeto
 
-O sistema realiza autenticação de usuários através de uma interface gráfica desenvolvida com Swing, utilizando JDBC para conexão com banco de dados SQLite.
+O objetivo do projeto é demonstrar conceitos fundamentais de:
 
-O projeto foi estruturado em camadas para facilitar organização, manutenção e entendimento do código.
+- Programação Orientada a Objetos (POO)
+- Integração com banco de dados
+- JDBC
+- Interface gráfica com Swing
+- Estruturação de projetos Java
+- Tratamento de erros
+- Organização em camadas
 
 ---
 
-## Tecnologias Utilizadas
+# Tecnologias Utilizadas
 
 - Java
 - Swing
@@ -23,18 +30,18 @@ O projeto foi estruturado em camadas para facilitar organização, manutenção 
 
 ---
 
-## Funcionalidades
+# Funcionalidades
 
 - Tela de login
 - Validação de usuário e senha
 - Integração com banco de dados SQLite
-- Consulta SQL utilizando PreparedStatement
+- Consulta SQL utilizando `PreparedStatement`
 - Mensagens de sucesso e erro
-- Tratamento básico de exceções
+- Tratamento de exceções
 
 ---
 
-## Tratamento de Erros
+# Tratamento de Erros
 
 O sistema possui tratamento para:
 
@@ -45,7 +52,7 @@ O sistema possui tratamento para:
 
 ---
 
-## Estrutura do Projeto
+# Estrutura do Projeto
 
 ```text
 login-system/
@@ -69,21 +76,19 @@ login-system/
 
 ---
 
-## Usuários de Teste
+# Usuários de Teste
 
 | Usuário | Senha |
 |---|---|
 | admin | 123456 |
 | walter | walter123 |
 | luana | luana123 |
-| pedro | pedro123 |
-| gabriel | gabriel123 
 
 ---
 
-## Como Executar
+# Como Executar
 
-### 1. Abrir o projeto no VS Code
+## 1. Abrir o projeto no VS Code
 
 Abra a pasta:
 
@@ -93,9 +98,9 @@ login-system
 
 ---
 
-### 2. Adicionar o driver SQLite JDBC
+## 2. Adicionar o Driver JDBC
 
-Adicionar o arquivo `.jar` localizado em:
+Adicionar o arquivo:
 
 ```text
 lib/sqlite-jdbc-3.53.1.0.jar
@@ -109,7 +114,7 @@ JAVA PROJECTS → Referenced Libraries
 
 ---
 
-### 3. Executar o projeto
+## 3. Executar o Projeto
 
 Abrir o arquivo:
 
@@ -117,7 +122,7 @@ Abrir o arquivo:
 src/app/Main.java
 ```
 
-e clicar em:
+Clique em:
 
 ```text
 Run
@@ -125,21 +130,47 @@ Run
 
 ---
 
-## Objetivo Acadêmico
+# Banco de Dados
 
-O projeto tem como finalidade aplicar conceitos fundamentais de:
+O sistema utiliza SQLite como banco de dados local.
 
-- Programação Orientada a Objetos
-- Integração com banco de dados
-- JDBC
-- Estruturação de projetos Java
-- Organização em camadas
-- Tratamento de erros
-- Interface gráfica com Swing
+O arquivo:
+
+```text
+users.db
+```
+
+precisa permanecer na raiz do projeto para evitar problemas de caminho durante a execução.
 
 ---
 
-## Observações
+# Exemplo de Consulta SQL
 
-O banco de dados SQLite (`users.db`) deve permanecer na raiz do projeto para evitar problemas de caminho durante a execução.
-````
+```sql
+SELECT * FROM users WHERE username = ?
+```
+
+---
+
+# Interface do Sistema
+
+O sistema possui:
+
+- Campo de usuário
+- Campo de senha
+- Botão de login
+- Mensagens de erro e sucesso
+- Validação de autenticação
+
+---
+
+# Observações
+
+Projeto desenvolvido para fins acadêmicos e demonstração prática dos conceitos estudados na disciplina de Linguagem de Programação II
+
+# Autores
+
+- Walter Fonseca  
+- Luana Monteiro  
+- Gabriel Champin  
+- Pedro Genaro
