@@ -31,6 +31,6 @@ public class AuthService {
             return "Senha incorreta.";
         }
 
-        return "LOGIN_SUCCESS:" + user.getUsername();
+        return "LOGIN_SUCCESS: " + user.getUsername();
     }
 }

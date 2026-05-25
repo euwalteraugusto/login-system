@@ -68,28 +68,23 @@ public class LoginScreen extends JFrame {
 
         String result = authService.authenticate(username, password);
 
-        switch (result) {
+        if (result.startsWith("LOGIN_SUCCESS")) {
 
-            case "LOGIN_SUCCESS":
-
-                JOptionPane.showMessageDialog(
+            JOptionPane.showMessageDialog(
                         this,
-                        "Login realizado com sucesso!",
-                        "Sucesso",
-                        JOptionPane.PLAIN_MESSAGE
-                );
+                    "Login realizado com sucesso!",
+                    "Sucesso",
+                    JOptionPane.INFORMATION_MESSAGE
+            );
 
-                break;
+        } else {
 
-            default:
-
-                JOptionPane.showMessageDialog(
-                        this,
-                        result,
-                        "Erro",
-                        JOptionPane.ERROR_MESSAGE);
-
-                break;
+            JOptionPane.showMessageDialog(
+                    this,
+                    result,
+                    "Erro",
+                    JOptionPane.ERROR_MESSAGE
+            );
         }
     }
 }
