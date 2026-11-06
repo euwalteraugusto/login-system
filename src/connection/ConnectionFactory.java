@@ -15,7 +15,7 @@ public class ConnectionFactory {
             Connection connection = DriverManager.getConnection(URL);
 
             System.out.println("Conexão realizada com sucesso.");
-            System.out.println("Banco utilizado: users.db");    
+            System.out.println("Banco utilizado: users.db");
 
             return connection;
 

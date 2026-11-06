@@ -46,8 +46,7 @@ O objetivo do projeto é demonstrar conceitos fundamentais de:
 O sistema possui tratamento para:
 
 - Campos vazios
-- Usuário inexistente
-- Senha incorreta
+- Credenciais inválidas (usuário inexistente ou senha incorreta, com a mesma mensagem)
 - Falha de conexão com banco de dados
 
 ---
@@ -57,7 +56,7 @@ O sistema possui tratamento para:
 ```text
 login-system/
 │
-├── users.db
+├── users.db            (gerado localmente, não versionado)
 │
 ├── lib/
 │   └── sqlite-jdbc-3.53.1.0.jar
@@ -71,7 +70,12 @@ login-system/
 │   ├── dao/
 │   ├── model/
 │   ├── service/
+│   ├── security/
 │   └── ui/
+│
+├── scripts/            (criar-banco.sh / criar-banco.bat)
+├── tools/              (CriarBanco, GerarHash)
+├── test/               (PasswordHasherTest)
 ```
 
 ---
@@ -132,15 +136,15 @@ Run
 
 # Banco de Dados
 
-O sistema utiliza SQLite como banco de dados local.
+O sistema utiliza SQLite como banco de dados local. O arquivo `users.db` **não é versionado** (`*.db` está no `.gitignore`); ele é gerado a partir de `database/database.sql` e precisa ficar na raiz do projeto.
 
-O arquivo:
+Para gerar o banco (requer `javac`/`java` no PATH), na raiz do projeto:
 
-```text
-users.db
+```bash
+sh scripts/criar-banco.sh            # Linux/macOS/Git Bash
+scripts\criar-banco.bat              # Windows
+# use --recriar para apagar e recriar um users.db existente
 ```
-
-precisa permanecer na raiz do projeto para evitar problemas de caminho durante a execução.
 
 ---
 
@@ -161,6 +165,24 @@ O sistema possui:
 - Botão de login
 - Mensagens de erro e sucesso
 - Validação de autenticação
+
+---
+
+# Segurança
+
+- **Hash de senha:** as senhas nunca são guardadas em texto puro. Usa-se PBKDF2WithHmacSHA256 (JDK, sem bibliotecas extras), 600.000 iterações, salt aleatório de 16 bytes por senha. Formato salvo na coluna `password`: `iteracoes$salt$hash` (Base64). Veja `src/security/PasswordHasher.java`.
+- **Verificação:** `AuthService` usa `PasswordHasher.verify`, que compara em tempo constante (`MessageDigest.isEqual`).
+- **Sem enumeração de usuários:** usuário inexistente e senha incorreta retornam a mesma mensagem ("Usuário ou senha inválidos"); para usuário inexistente também é feita uma verificação de hash fictícia para equalizar o tempo de resposta.
+- **SQL Injection:** o `UserDAO` usa apenas `PreparedStatement` com parâmetros.
+- **Banco fora do Git:** `users.db` não é rastreado; o seed em `database/database.sql` contém apenas hashes. As senhas de teste da tabela acima servem só para desenvolvimento.
+- **Novo hash para o seed:** `java -cp out GerarHash <senha>` (após compilar, veja `scripts/criar-banco.sh`).
+- **Teste do hash:**
+
+```bash
+mkdir -p out && javac -d out src/security/PasswordHasher.java test/PasswordHasherTest.java && java -cp out PasswordHasherTest
+```
+
+Limitações (projeto acadêmico): não há bloqueio por tentativas excessivas (rate limiting) nem comunicação cifrada, por ser aplicação desktop local.
 
 ---
 
