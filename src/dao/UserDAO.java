@@ -30,21 +30,24 @@ public class UserDAO {
                 return null;
             }
 
-            PreparedStatement statement = connection.prepareStatement(sql);
+            try (PreparedStatement statement = connection.prepareStatement(sql)) {
 
-            statement.setString(1, username);
+                statement.setString(1, username);
 
-            ResultSet resultSet = statement.executeQuery();
+                try (ResultSet resultSet = statement.executeQuery()) {
 
-            if (resultSet.next()) {
+                    if (resultSet.next()) {
 
-                User user = new User();
+                        User user = new User();
 
-                user.setId(resultSet.getInt("id"));
-                user.setUsername(resultSet.getString("username"));
-                user.setPassword(resultSet.getString("password"));
+                        user.setId(resultSet.getInt("id"));
+                        user.setUsername(resultSet.getString("username"));
+                        // Armazena o hash "iter$salt$hash", nunca a senha em texto puro
+                        user.setPassword(resultSet.getString("password"));
 
-                return user;
+                        return user;
+                    }
+                }
             }
 
         } catch (SQLException e) {
